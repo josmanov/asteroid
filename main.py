@@ -2,6 +2,7 @@ import pygame
 import constants
 import circleshape
 import sys
+import display_score
 from logger import log_state
 from logger import log_event
 from player import Player
@@ -16,6 +17,9 @@ def main():
     print("Screen height:", constants.SCREEN_HEIGHT)
 
     pygame.init()
+    pygame.font.init()
+
+    font = pygame.font.Font()
 
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
     clock = pygame.time.Clock()
@@ -51,12 +55,14 @@ def main():
             for shot in shots:
                 if shot.collides_with(asteroid) == True:
                     log_event("asteroid_shot")
-                    asteroid.kill()
+                    asteroid.split()
                     shot.kill()
+                    constants.SCORE += 1
             if player.collides_with(asteroid) == True:
                 log_event("player_hit")
                 print("Game over!")
                 sys.exit()
+        display_score.display_score(screen, 15, 15)
         pygame.display.flip()
 
 if __name__ == "__main__":
