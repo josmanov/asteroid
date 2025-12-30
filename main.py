@@ -7,6 +7,7 @@ from logger import log_event
 from player import Player
 from asteroidfield import AsteroidField
 from asteroid import Asteroid
+from shot import Shot
 
 
 def main():
@@ -22,18 +23,14 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
    
     Asteroid.containers = (asteroids, updatable, drawable)
-
     Player.containers = (updatable, drawable)
     AsteroidField.containers = (updatable,)
+    Shot.containers = (shots, drawable, updatable)
 
     player = Player(constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2)
-    # asteroids = Asteroid(
-    #    constants.SCREEN_WIDTH / 2,
-    #    constants.SCREEN_HEIGHT / 2,
-    #    constants.ASTEROID_MIN_RADIUS
-    #    )
     asteroid_field = AsteroidField()
 
     while (1):
@@ -45,6 +42,7 @@ def main():
         dt = clock.tick(60) / 1000
         player.update(dt)
         screen.fill("black", None, 0)
+
         for item in drawable:
             item.draw(screen)
         for item in updatable:
